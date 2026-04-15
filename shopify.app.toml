@@ -1,16 +1,17 @@
 name = "my-app"
 client_id = "ed8e4f49968f638f6007381c71700481"
-application_url = "https://render2.onrender.com"
+application_url = "https://render2-teel.onrender.com"
 embedded = true
 
 [access_scopes]
 scopes = "write_products,read_products"
 
+
+
 [auth]
 redirect_urls = [
-  "https://render2.onrender.com/auth/callback"
+  "https://render2-teel.onrender.com/auth/callback"
 ]
-
 [webhooks]
 api_version = "2025-07"
 
