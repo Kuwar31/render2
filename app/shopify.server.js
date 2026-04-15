@@ -15,10 +15,10 @@ const shopify = shopifyApp({
     },
   },
   hooks: {
-    afterAuth: async ({ session }) => {
-      shopify.registerWebhooks({ session });
-    },
+  afterAuth: async ({ session, admin }) => {
+    await shopify.registerWebhooks({ session });
   },
+},
 });
 
 export default shopify;
