@@ -9,20 +9,24 @@ const shopify = shopifyApp({
   apiVersion: ApiVersion.July25,
   sessionStorage: new PrismaSessionStorage(prisma),
   webhooks: {
+    ORDERS_CREATE: {
+      deliveryMethod: "http",
+      callbackUrl: "/webhooks/orders_create",
+    },
     PRODUCTS_UPDATE: {
       deliveryMethod: "http",
       callbackUrl: "/webhooks/products_update",
     },
   },
   hooks: {
-  afterAuth: async ({ session, admin }) => {
-    await shopify.registerWebhooks({ session });
+    afterAuth: async ({ session }) => {
+      await shopify.registerWebhooks({ session });
+    },
   },
-},
 });
 
 export default shopify;
 export const authenticate = shopify.authenticate;
 export const sessionStorage = shopify.sessionStorage;
 export const addDocumentResponseHeaders = shopify.addDocumentResponseHeaders;
-export const login = shopify.login; // ← add this
+export const login = shopify.login;
