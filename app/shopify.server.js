@@ -24,4 +24,5 @@ const shopify = shopifyApp({
 export default shopify;
 export const authenticate = shopify.authenticate;
 export const sessionStorage = shopify.sessionStorage;
-export const addDocumentResponseHeaders = shopify.addDocumentResponseHeaders; // ← add this
+export const addDocumentResponseHeaders = shopify.addDocumentResponseHeaders;
+export const login = shopify.login; // ← add this
