@@ -19,8 +19,46 @@ const shopify = shopifyApp({
     },
   },
   hooks: {
-    afterAuth: async ({ session }) => {
+    afterAuth: async ({ session, admin }) => {
       await shopify.registerWebhooks({ session });
+
+      // Auto-create metafield definition on install
+      const response = await admin.graphql(
+        `#graphql
+        mutation createMetafieldDefinition($definition: MetafieldDefinitionInput!) {
+          metafieldDefinitionCreate(definition: $definition) {
+            createdDefinition {
+              id
+              name
+              key
+            }
+            userErrors {
+              field
+              message
+            }
+          }
+        }`,
+        {
+          variables: {
+            definition: {
+              name: "Total Spent",
+              namespace: "custom",
+              key: "total_spent",
+              type: "number_decimal",
+              ownerType: "CUSTOMER",
+            },
+          },
+        }
+      );
+
+      const data = await response.json();
+      const errors = data.data.metafieldDefinitionCreate?.userErrors;
+
+      if (errors?.length > 0) {
+        console.log("[afterAuth] Metafield definition already exists or error:", errors);
+      } else {
+        console.log("[afterAuth] Metafield definition created successfully");
+      }
     },
   },
 });
