@@ -4,18 +4,13 @@ import { Form, useActionData, useLoaderData } from "react-router";
 import { login } from "../../shopify.server";
 import { loginErrorMessage } from "./error.server";
 
-export const loader = async ({ request }) => {
-  const errors = loginErrorMessage(await login(request));
-
-  return { errors };
+export const loader = async () => {
+  return { errors: {} };
 };
 
 export const action = async ({ request }) => {
   const errors = loginErrorMessage(await login(request));
-
-  return {
-    errors,
-  };
+  return { errors };
 };
 
 export default function Auth() {
