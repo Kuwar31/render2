@@ -14,5 +14,9 @@ redirect_urls = [
 [webhooks]
 api_version = "2025-07"
 
+[protected_customer_data_access]
+protected_customer_data = "unrestricted"
+protected_customer_fields = "Email, Phone, Name, Address"
+
 [pos]
 embedded = false
