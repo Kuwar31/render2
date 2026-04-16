@@ -1,0 +1,133 @@
+.kaching-bundle-wrapper {
+  margin: 20px 0;
+}
+
+.kaching-bundle {
+  font-family: inherit;
+}
+
+.kaching-bundle-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #202223;
+}
+
+.kaching-tiers {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+/* Classic layout */
+.kaching-bundle--classic .kaching-tier {
+  position: relative;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 14px 16px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 90px;
+  text-align: center;
+  transition: all 0.15s ease;
+  background: #fff;
+}
+
+/* Compact layout */
+.kaching-bundle--compact .kaching-tiers {
+  flex-direction: column;
+  gap: 6px;
+}
+
+.kaching-bundle--compact .kaching-tier {
+  position: relative;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 10px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.15s ease;
+  background: #fff;
+}
+
+.kaching-tier:hover {
+  border-color: #888;
+}
+
+.kaching-tier--selected {
+  border-color: #202223 !important;
+  background: #fafafa;
+}
+
+.kaching-tier--popular {
+  border-color: #008060;
+}
+
+.kaching-tier-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #008060;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.kaching-bundle--compact .kaching-tier-badge {
+  position: static;
+  transform: none;
+  font-size: 10px;
+  padding: 1px 8px;
+}
+
+.kaching-tier-qty {
+  font-size: 14px;
+  font-weight: 600;
+  color: #202223;
+  margin-bottom: 4px;
+}
+
+.kaching-bundle--compact .kaching-tier-qty {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+.kaching-tier-price {
+  font-size: 13px;
+  color: #555;
+}
+
+.kaching-price-original {
+  text-decoration: line-through;
+  color: #999;
+  margin-right: 4px;
+}
+
+.kaching-price-discounted {
+  color: #202223;
+  font-weight: 600;
+}
+
+.kaching-tier-save {
+  font-size: 12px;
+  color: #008060;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.kaching-bundle--compact .kaching-tier-save {
+  margin-top: 0;
+}
+
+.kaching-bundle-loading {
+  color: #999;
+  font-size: 13px;
+  padding: 8px 0;
+}

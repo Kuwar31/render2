@@ -1,0 +1,12 @@
+api_version = "2025-07"
+
+[[extensions]]
+type = "theme"
+name = "Bundle Widget"
+handle = "bundle-widget"
+
+  [[extensions.settings.fields]]
+  key = "show_labels"
+  type = "boolean"
+  name = "Show tier labels"
+uid = "8738ae3d-25c4-f928-2ab3-1488c50a48290045fd0b"

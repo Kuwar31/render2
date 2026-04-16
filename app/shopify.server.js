@@ -8,19 +8,9 @@ const shopify = shopifyApp({
   appUrl: process.env.SHOPIFY_APP_URL,
   apiVersion: ApiVersion.July25,
   sessionStorage: new PrismaSessionStorage(prisma),
-  webhooks: {
-    ORDERS_CREATE: {
-      deliveryMethod: "http",
-      callbackUrl: "/webhooks/orders_create",
-    },
-    PRODUCTS_UPDATE: {
-      deliveryMethod: "http",
-      callbackUrl: "/webhooks/products_update",
-    },
-  },
   hooks: {
     afterAuth: async ({ session }) => {
-      await shopify.registerWebhooks({ session });
+      shopify.registerWebhooks({ session });
     },
   },
 });

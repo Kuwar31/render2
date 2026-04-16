@@ -4,7 +4,7 @@ application_url = "https://render2-teel.onrender.com"
 embedded = true
 
 [access_scopes]
-scopes = "write_products,read_products,read_orders,write_customers,read_customers"
+scopes = "write_products,read_products,write_discounts,read_discounts"
 
 [auth]
 redirect_urls = [

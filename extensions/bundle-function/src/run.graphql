@@ -1,0 +1,20 @@
+query RunInput {
+  cart {
+    lines {
+      quantity
+      merchandise {
+        ... on ProductVariant {
+          id
+          product {
+            id
+          }
+        }
+      }
+    }
+  }
+  discountNode {
+    metafield(namespace: "$app:bundle-function", key: "function-configuration") {
+      value
+    }
+  }
+}

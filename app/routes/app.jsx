@@ -11,12 +11,11 @@ export const loader = async ({ request }) => {
 
 export default function App() {
   const { apiKey } = useLoaderData();
-
   return (
     <AppProvider embedded apiKey={apiKey}>
       <NavMenu>
-        <Link to="/app" rel="home">Home</Link>
-        <Link to="/app/products">Products</Link>
+        <Link to="/app" rel="home">Dashboard</Link>
+        <Link to="/app/bundles">Bundles</Link>
       </NavMenu>
       <Outlet />
     </AppProvider>

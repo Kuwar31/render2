@@ -8,21 +8,48 @@ datasource db {
 }
 
 model Session {
-  id                   String    @id
-  shop                 String
-  state                String
-  isOnline             Boolean   @default(false)
-  scope                String?
-  expires              DateTime?
-  accessToken          String
-  userId               BigInt?
-  firstName            String?
-  lastName             String?
-  email                String?
-  accountOwner         Boolean   @default(false)
-  locale               String?
-  collaborator         Boolean?  @default(false)
-  emailVerified        Boolean?  @default(false)
-  refreshToken         String?
-  refreshTokenExpires  DateTime?
+  id                  String    @id
+  shop                String
+  state               String
+  isOnline            Boolean   @default(false)
+  scope               String?
+  expires             DateTime?
+  accessToken         String
+  userId              BigInt?
+  firstName           String?
+  lastName            String?
+  email               String?
+  accountOwner        Boolean   @default(false)
+  locale              String?
+  collaborator        Boolean?  @default(false)
+  emailVerified       Boolean?  @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+}
+
+model Bundle {
+  id         String       @id @default(cuid())
+  shop       String
+  title      String
+  status     String       @default("active")
+  targetType String       @default("all")
+  targetId   String?
+  layout     String       @default("classic")
+  discountId String?      // ← add this
+  revenue    Float        @default(0)
+  orders     Int          @default(0)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  tiers      BundleTier[]
+}
+
+model BundleTier {
+  id            String  @id @default(cuid())
+  bundleId      String
+  bundle        Bundle  @relation(fields: [bundleId], references: [id], onDelete: Cascade)
+  quantity      Int
+  discountType  String
+  discountValue Float
+  label         String?
+  position      Int     @default(0)
 }

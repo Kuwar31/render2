@@ -1,0 +1,135 @@
+<div id="kaching-bundle-{{ product.id }}" class="kaching-bundle-wrapper">
+  {{ 'bundle.css' | asset_url | stylesheet_tag }}
+  <div class="kaching-bundle-container" data-product-id="{{ product.id }}">
+    <div class="kaching-bundle-loading">Loading offers...</div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const productId = {{ product.id }};
+  const shop = {{ shop.permanent_domain | json }};
+  const appUrl = {{ app.url | json }};
+  const container = document.querySelector('#kaching-bundle-{{ product.id }} .kaching-bundle-container');
+
+  fetch(`${appUrl}/api/bundles?productId=${productId}&shop=${shop}`)
+    .then(r => r.json())
+    .then(data => {
+      if (!data.bundles || data.bundles.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+      renderBundle(data.bundles[0]);
+    })
+    .catch(() => { container.innerHTML = ''; });
+
+  function getDiscountedPrice(originalPrice, tier) {
+    if (tier.discountType === 'percentage') {
+      return originalPrice * (1 - tier.discountValue / 100);
+    } else if (tier.discountType === 'fixed_amount') {
+      return originalPrice - tier.discountValue;
+    } else if (tier.discountType === 'fixed_price') {
+      return tier.discountValue;
+    }
+    return originalPrice;
+  }
+
+  function formatMoney(cents) {
+    return (cents / 100).toFixed(2);
+  }
+
+  function renderBundle(bundle) {
+    const originalPrice = {{ product.price }};
+    const tiers = bundle.tiers.sort((a, b) => a.quantity - b.quantity);
+    const layout = bundle.layout || 'classic';
+
+    container.innerHTML = `
+      <div class="kaching-bundle kaching-bundle--${layout}">
+        <div class="kaching-bundle-title">${bundle.title}</div>
+        <div class="kaching-tiers">
+          ${tiers.map((tier, i) => {
+            const discountedPrice = getDiscountedPrice(originalPrice, tier);
+            const totalPrice = discountedPrice * tier.quantity;
+            const isPopular = tier.label && tier.label.toLowerCase().includes('popular');
+            return `
+              <div class="kaching-tier ${i === 0 ? 'kaching-tier--selected' : ''} ${isPopular ? 'kaching-tier--popular' : ''}"
+                   data-quantity="${tier.quantity}"
+                   data-bundle-id="${bundle.id}"
+                   onclick="kachingSelectTier(this, '${bundle.id}')">
+                ${tier.label ? `<div class="kaching-tier-badge">${tier.label}</div>` : ''}
+                <div class="kaching-tier-qty">Buy ${tier.quantity}</div>
+                <div class="kaching-tier-price">
+                  ${tier.discountValue > 0
+                    ? `<span class="kaching-price-original">${formatMoney(originalPrice * tier.quantity)}</span>
+                       <span class="kaching-price-discounted">${formatMoney(totalPrice)}</span>`
+                    : `<span class="kaching-price-discounted">${formatMoney(totalPrice)}</span>`
+                  }
+                </div>
+                ${tier.discountValue > 0
+                  ? `<div class="kaching-tier-save">
+                      ${tier.discountType === 'percentage'
+                        ? `Save ${tier.discountValue}%`
+                        : `Save $${(originalPrice * tier.quantity / 100 - totalPrice).toFixed(2)}`
+                      }
+                    </div>`
+                  : ''
+                }
+              </div>
+            `;
+          }).join('')}
+        </div>
+        <input type="hidden" id="kaching-selected-qty-${bundle.id}" value="${tiers[0]?.quantity || 1}">
+        <input type="hidden" id="kaching-bundle-id-${bundle.id}" value="${bundle.id}">
+      </div>
+    `;
+
+    // Hook into the add to cart button
+    hookAddToCart(bundle.id, tiers[0]?.quantity || 1);
+  }
+
+  function hookAddToCart(bundleId, initialQty) {
+    let currentQty = initialQty;
+    
+    window.kachingSelectTier = function(el, bId) {
+      document.querySelectorAll(`[data-bundle-id="${bId}"]`).forEach(t => t.classList.remove('kaching-tier--selected'));
+      el.classList.add('kaching-tier--selected');
+      currentQty = parseInt(el.dataset.quantity);
+      document.getElementById(`kaching-selected-qty-${bId}`).value = currentQty;
+    };
+
+    // Override quantity input if exists
+    const qtyInput = document.querySelector('input[name="quantity"]');
+    if (qtyInput) {
+      qtyInput.value = currentQty;
+      qtyInput.style.display = 'none';
+    }
+
+    // Override add to cart form
+    const form = document.querySelector('form[action="/cart/add"]');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        const qtyEl = document.getElementById(`kaching-selected-qty-${bundleId}`);
+        if (qtyEl && qtyInput) {
+          qtyInput.value = qtyEl.value;
+        }
+      });
+    }
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Bundle Widget",
+  "target": "section",
+  "stylesheet": "bundle.css",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_labels",
+      "label": "Show tier labels",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
