@@ -1,4 +1,4 @@
-import { useLoaderData, useSubmit, Link } from "react-router";
+import { useLoaderData, useSubmit } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
@@ -56,17 +56,17 @@ export default function BundleList() {
 
       <s-section>
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
-          <Link to="/app/bundles/new" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", fontSize: "14px" }}>
+          <a href="/app/bundles/new" target="_top" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", fontSize: "14px" }}>
             Create bundle
-          </Link>
+          </a>
         </div>
 
         {bundles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
-            <Link to="/app/bundles/new" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none" }}>
+            <a href="/app/bundles/new" target="_top" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none" }}>
               Create your first bundle
-            </Link>
+            </a>
           </div>
         ) : (
           bundles.map(b => (
@@ -81,13 +81,13 @@ export default function BundleList() {
                 <span style={{ color: b.status === "active" ? "#008060" : "#999", fontSize: "13px" }}>
                   {b.status === "active" ? "● Active" : "○ Paused"}
                 </span>
-                <button onClick={() => handleToggle(b.id)} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer" }}>
+                <button onClick={() => handleToggle(b.id)} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}>
                   {b.status === "active" ? "Pause" : "Activate"}
                 </button>
-                <Link to={`/app/bundles/${b.id}`} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333" }}>
+                <a href={`/app/bundles/${b.id}`} target="_top" style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333" }}>
                   Edit
-                </Link>
-                <button onClick={() => handleDelete(b.id)} style={{ padding: "6px 12px", border: "1px solid #fcc", borderRadius: "4px", cursor: "pointer", color: "#d00" }}>
+                </a>
+                <button onClick={() => handleDelete(b.id)} style={{ padding: "6px 12px", border: "1px solid #fcc", borderRadius: "4px", cursor: "pointer", color: "#d00", background: "white" }}>
                   Delete
                 </button>
               </div>

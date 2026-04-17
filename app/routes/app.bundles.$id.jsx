@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData, useSubmit, useActionData, Link } from "react-router";
+import { useLoaderData, useSubmit, useActionData } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
@@ -100,9 +100,9 @@ export default function EditBundle() {
     <s-page>
       <TitleBar title="Edit Bundle">
         <button onClick={handleDelete} style={{ color: "#d00" }}>Delete</button>
-        <Link to="/app/bundles" style={{ padding: "8px 16px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333" }}>
+        <a href="/app/bundles" target="_top" style={{ padding: "8px 16px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333" }}>
           Cancel
-        </Link>
+        </a>
         <button variant="primary" onClick={handleSave}>Save changes</button>
       </TitleBar>
 

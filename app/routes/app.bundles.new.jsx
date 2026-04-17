@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSubmit, useActionData, Link } from "react-router";
+import { useSubmit, useActionData } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
@@ -122,9 +122,9 @@ export default function NewBundle() {
   return (
     <s-page>
       <TitleBar title="Create Bundle">
-        <Link to="/app/bundles" style={{ padding: "8px 16px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333" }}>
+        <a href="/app/bundles" target="_top" style={{ padding: "8px 16px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333" }}>
           Cancel
-        </Link>
+        </a>
         <button variant="primary" onClick={handleSave}>Save bundle</button>
       </TitleBar>
 
