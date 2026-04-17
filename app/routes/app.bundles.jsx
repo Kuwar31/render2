@@ -1,4 +1,3 @@
-// app/routes/app.bundles.jsx
 import { useLoaderData, useSubmit, useNavigate } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
