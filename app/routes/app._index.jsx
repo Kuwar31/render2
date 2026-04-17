@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate } from "react-router";
+import { useLoaderData } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
@@ -19,16 +19,17 @@ export const loader = async ({ request }) => {
 
 export default function Dashboard() {
   const { totalRevenue, totalOrders, activeBundles, bundles } = useLoaderData();
-  const navigate = useNavigate();
 
   return (
     <s-page>
       <TitleBar title="Kaching Bundles" />
       <s-section heading="Overview">
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
-          <button onClick={() => window.top.location.href = "/app/bundles/new"} style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer", fontSize: "14px" }}>
-            Create bundle
-          </button>
+          <form method="get" action="/app/bundles/new">
+            <button type="submit" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer", fontSize: "14px" }}>
+              Create bundle
+            </button>
+          </form>
         </div>
         <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
           <div style={{ flex: 1, minWidth: "150px", background: "#f0f8ff", borderRadius: "8px", padding: "20px", textAlign: "center" }}>
@@ -49,9 +50,11 @@ export default function Dashboard() {
         {bundles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
-            <button onClick={() => window.top.location.href = "/app/bundles/new"} style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }}>
-              Create your first bundle
-            </button>
+            <form method="get" action="/app/bundles/new">
+              <button type="submit" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }}>
+                Create your first bundle
+              </button>
+            </form>
           </div>
         ) : (
           bundles.slice(0, 5).map(b => (
@@ -64,9 +67,11 @@ export default function Dashboard() {
                 <span style={{ color: b.status === "active" ? "#008060" : "#666" }}>
                   {b.status === "active" ? "● Active" : "○ Paused"}
                 </span>
-                <button onClick={() => navigate(`/app/bundles/${b.id}`)} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}>
-                  Edit
-                </button>
+                <form method="get" action={`/app/bundles/${b.id}`}>
+                  <button type="submit" style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}>
+                    Edit
+                  </button>
+                </form>
               </div>
             </div>
           ))

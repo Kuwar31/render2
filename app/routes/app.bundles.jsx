@@ -1,4 +1,4 @@
-import { useLoaderData, useSubmit, useNavigate } from "react-router";
+import { useLoaderData, useSubmit } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
@@ -33,7 +33,6 @@ export const action = async ({ request }) => {
 export default function BundleList() {
   const { bundles } = useLoaderData();
   const submit = useSubmit();
-  const navigate = useNavigate();
 
   const handleToggle = (id) => {
     const formData = new FormData();
@@ -55,16 +54,20 @@ export default function BundleList() {
       <TitleBar title="Bundles" />
       <s-section>
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
-          <button onClick={() => window.top.location.href = "/app/bundles/new"} style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer", fontSize: "14px" }}>
-            Create bundle
-          </button>
+          <form method="get" action="/app/bundles/new">
+            <button type="submit" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer", fontSize: "14px" }}>
+              Create bundle
+            </button>
+          </form>
         </div>
         {bundles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
-            <button onClick={() => window.top.location.href = "/app/bundles/new"} style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }}>
-              Create your first bundle
-            </button>
+            <form method="get" action="/app/bundles/new">
+              <button type="submit" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }}>
+                Create your first bundle
+              </button>
+            </form>
           </div>
         ) : (
           bundles.map(b => (
@@ -82,9 +85,11 @@ export default function BundleList() {
                 <button onClick={() => handleToggle(b.id)} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}>
                   {b.status === "active" ? "Pause" : "Activate"}
                 </button>
-                <button onClick={() => navigate(`/app/bundles/${b.id}`)} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}>
-                  Edit
-                </button>
+                <form method="get" action={`/app/bundles/${b.id}`}>
+                  <button type="submit" style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}>
+                    Edit
+                  </button>
+                </form>
                 <button onClick={() => handleDelete(b.id)} style={{ padding: "6px 12px", border: "1px solid #fcc", borderRadius: "4px", cursor: "pointer", color: "#d00", background: "white" }}>
                   Delete
                 </button>

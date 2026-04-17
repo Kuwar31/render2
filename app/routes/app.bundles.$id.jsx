@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData, useSubmit, useActionData, useNavigate } from "react-router";
+import { useLoaderData, useSubmit, useActionData } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
@@ -61,7 +61,6 @@ export default function EditBundle() {
   const { bundle } = useLoaderData();
   const submit = useSubmit();
   const actionData = useActionData();
-  const navigate = useNavigate();
 
   const [title, setTitle] = useState(bundle.title);
   const [targetType, setTargetType] = useState(bundle.targetType);
@@ -101,7 +100,9 @@ export default function EditBundle() {
     <s-page>
       <TitleBar title="Edit Bundle">
         <button onClick={handleDelete} style={{ color: "#d00" }}>Delete</button>
-        <button onClick={() => window.top.location.href = "/app/bundles"}>Cancel</button>
+        <form method="get" action="/app/bundles">
+          <button type="submit">Cancel</button>
+        </form>
         <button variant="primary" onClick={handleSave}>Save changes</button>
       </TitleBar>
 
