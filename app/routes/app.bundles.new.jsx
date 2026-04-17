@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSubmit, useActionData, Link } from "react-router";
+import { useSubmit, useActionData, useNavigate } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
@@ -97,6 +97,7 @@ export const action = async ({ request }) => {
 export default function NewBundle() {
   const submit = useSubmit();
   const actionData = useActionData();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [targetType, setTargetType] = useState("all");
@@ -127,9 +128,7 @@ export default function NewBundle() {
   return (
     <s-page>
       <TitleBar title="Create Bundle">
-        <Link reloadDocument to="/app/bundles" style={{ padding: "8px 16px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333", display: "inline-block" }}>
-          Cancel
-        </Link>
+        <button onClick={() => navigate("/app/bundles")}>Cancel</button>
         <button variant="primary" onClick={handleSave}>Save bundle</button>
       </TitleBar>
 

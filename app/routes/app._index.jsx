@@ -1,4 +1,4 @@
-import { useLoaderData, Link } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
@@ -19,15 +19,19 @@ export const loader = async ({ request }) => {
 
 export default function Dashboard() {
   const { totalRevenue, totalOrders, activeBundles, bundles } = useLoaderData();
+  const navigate = useNavigate();
 
   return (
     <s-page>
       <TitleBar title="Kaching Bundles" />
       <s-section heading="Overview">
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
-          <Link reloadDocument to="/app/bundles/new" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", fontSize: "14px", display: "inline-block" }}>
+          <button
+            onClick={() => navigate("/app/bundles/new")}
+            style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer", fontSize: "14px" }}
+          >
             Create bundle
-          </Link>
+          </button>
         </div>
         <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
           <div style={{ flex: 1, minWidth: "150px", background: "#f0f8ff", borderRadius: "8px", padding: "20px", textAlign: "center" }}>
@@ -48,9 +52,12 @@ export default function Dashboard() {
         {bundles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
-            <Link reloadDocument to="/app/bundles/new" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", display: "inline-block" }}>
+            <button
+              onClick={() => navigate("/app/bundles/new")}
+              style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }}
+            >
               Create your first bundle
-            </Link>
+            </button>
           </div>
         ) : (
           bundles.slice(0, 5).map(b => (
@@ -63,9 +70,12 @@ export default function Dashboard() {
                 <span style={{ color: b.status === "active" ? "#008060" : "#666" }}>
                   {b.status === "active" ? "● Active" : "○ Paused"}
                 </span>
-                <Link reloadDocument to={`/app/bundles/${b.id}`} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333", display: "inline-block" }}>
+                <button
+                  onClick={() => navigate(`/app/bundles/${b.id}`)}
+                  style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}
+                >
                   Edit
-                </Link>
+                </button>
               </div>
             </div>
           ))
