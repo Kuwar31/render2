@@ -1,8 +1,7 @@
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
-import { useCallback } from "react";
 
 export const loader = async ({ request }) => {
   const { session } = await authenticate.admin(request);
@@ -20,17 +19,7 @@ export const loader = async ({ request }) => {
 
 export default function Dashboard() {
   const { totalRevenue, totalOrders, activeBundles, bundles } = useLoaderData();
-
-  const handleNavigate = useCallback((path) => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const shop = searchParams.get("shop");
-    const host = searchParams.get("host");
-    if (shop && host) {
-      window.location.href = `${path}?shop=${shop}&host=${host}`;
-    } else {
-      window.location.href = path;
-    }
-  }, []);
+  const navigate = useNavigate();
 
   return (
     <s-page>
@@ -38,7 +27,7 @@ export default function Dashboard() {
       <s-section heading="Overview">
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
           <button
-            onClick={() => handleNavigate("/app/bundles/new")}
+            onClick={() => navigate("/app/bundles/new")}
             style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer", fontSize: "14px" }}
           >
             Create bundle
@@ -64,7 +53,7 @@ export default function Dashboard() {
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
             <button
-              onClick={() => handleNavigate("/app/bundles/new")}
+              onClick={() => navigate("/app/bundles/new")}
               style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }}
             >
               Create your first bundle
@@ -82,7 +71,7 @@ export default function Dashboard() {
                   {b.status === "active" ? "● Active" : "○ Paused"}
                 </span>
                 <button
-                  onClick={() => handleNavigate(`/app/bundles/${b.id}`)}
+                  onClick={() => navigate(`/app/bundles/${b.id}`)}
                   style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}
                 >
                   Edit

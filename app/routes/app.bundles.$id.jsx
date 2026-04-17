@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { useLoaderData, useSubmit, useActionData } from "react-router";
+import { useState } from "react";
+import { useLoaderData, useSubmit, useActionData, useNavigate } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
@@ -61,17 +61,7 @@ export default function EditBundle() {
   const { bundle } = useLoaderData();
   const submit = useSubmit();
   const actionData = useActionData();
-
-  const handleNavigate = useCallback((path) => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const shop = searchParams.get("shop");
-    const host = searchParams.get("host");
-    if (shop && host) {
-      window.location.href = `${path}?shop=${shop}&host=${host}`;
-    } else {
-      window.location.href = path;
-    }
-  }, []);
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState(bundle.title);
   const [targetType, setTargetType] = useState(bundle.targetType);
@@ -111,7 +101,7 @@ export default function EditBundle() {
     <s-page>
       <TitleBar title="Edit Bundle">
         <button onClick={handleDelete} style={{ color: "#d00" }}>Delete</button>
-        <button onClick={() => handleNavigate("/app/bundles")}>Cancel</button>
+        <button onClick={() => navigate("/app/bundles")}>Cancel</button>
         <button variant="primary" onClick={handleSave}>Save changes</button>
       </TitleBar>
 
