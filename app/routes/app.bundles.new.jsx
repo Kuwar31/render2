@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useSubmit, useActionData } from "react-router";
+import { useSubmit, useActionData, useNavigate } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
 import { redirect } from "react-router";
-import { useSubmit, useActionData, useNavigate } from "react-router";
 
 export const action = async ({ request }) => {
   const { admin, session } = await authenticate.admin(request);
