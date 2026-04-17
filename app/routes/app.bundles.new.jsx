@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useSubmit, useActionData } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
@@ -98,6 +98,17 @@ export default function NewBundle() {
   const submit = useSubmit();
   const actionData = useActionData();
 
+  const handleNavigate = useCallback((path) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const shop = searchParams.get("shop");
+    const host = searchParams.get("host");
+    if (shop && host) {
+      window.location.href = `${path}?shop=${shop}&host=${host}`;
+    } else {
+      window.location.href = path;
+    }
+  }, []);
+
   const [title, setTitle] = useState("");
   const [targetType, setTargetType] = useState("all");
   const [layout, setLayout] = useState("classic");
@@ -127,9 +138,7 @@ export default function NewBundle() {
   return (
     <s-page>
       <TitleBar title="Create Bundle">
-        <form method="get" action="/app/bundles">
-          <button type="submit">Cancel</button>
-        </form>
+        <button onClick={() => handleNavigate("/app/bundles")}>Cancel</button>
         <button variant="primary" onClick={handleSave}>Save bundle</button>
       </TitleBar>
 

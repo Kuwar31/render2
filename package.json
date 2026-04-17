@@ -29,6 +29,7 @@
     "@react-router/fs-routes": "^7.12.0",
     "@react-router/node": "^7.12.0",
     "@react-router/serve": "^7.12.0",
+    "@shopify/app-bridge": "^3.7.11",
     "@shopify/app-bridge-react": "^4.2.4",
     "@shopify/shopify-app-react-router": "^1.1.0",
     "@shopify/shopify-app-session-storage-prisma": "^9.0.0",
@@ -60,9 +61,9 @@
     "vite": "^6.3.6"
   },
   "workspaces": [
-  "extensions/bundle-widget",
-  "extensions/bundle-function"
-],
+    "extensions/bundle-widget",
+    "extensions/bundle-function"
+  ],
   "trustedDependencies": [
     "@shopify/plugin-cloudflare"
   ],
