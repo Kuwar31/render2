@@ -1,5 +1,5 @@
-import { useLoaderData, useSubmit } from "react-router";
-import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
+import { useLoaderData, useSubmit, Link } from "react-router";
+import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
 
@@ -34,7 +34,6 @@ export const action = async ({ request }) => {
 export default function BundleList() {
   const { bundles } = useLoaderData();
   const submit = useSubmit();
-  const shopify = useAppBridge();
 
   const handleToggle = (id) => {
     const formData = new FormData();
@@ -53,19 +52,21 @@ export default function BundleList() {
 
   return (
     <s-page>
-      <TitleBar title="Bundles">
-        <button variant="primary" onClick={() => shopify.navigate("/app/bundles/new")}>
-          Create bundle
-        </button>
-      </TitleBar>
+      <TitleBar title="Bundles" />
 
       <s-section>
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
+          <Link to="/app/bundles/new" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", fontSize: "14px" }}>
+            Create bundle
+          </Link>
+        </div>
+
         {bundles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
-            <button onClick={() => shopify.navigate("/app/bundles/new")}>
+            <Link to="/app/bundles/new" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none" }}>
               Create your first bundle
-            </button>
+            </Link>
           </div>
         ) : (
           bundles.map(b => (
@@ -80,11 +81,15 @@ export default function BundleList() {
                 <span style={{ color: b.status === "active" ? "#008060" : "#999", fontSize: "13px" }}>
                   {b.status === "active" ? "● Active" : "○ Paused"}
                 </span>
-                <button onClick={() => handleToggle(b.id)}>
+                <button onClick={() => handleToggle(b.id)} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer" }}>
                   {b.status === "active" ? "Pause" : "Activate"}
                 </button>
-                <button onClick={() => shopify.navigate(`/app/bundles/${b.id}`)}>Edit</button>
-                <button onClick={() => handleDelete(b.id)}>Delete</button>
+                <Link to={`/app/bundles/${b.id}`} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333" }}>
+                  Edit
+                </Link>
+                <button onClick={() => handleDelete(b.id)} style={{ padding: "6px 12px", border: "1px solid #fcc", borderRadius: "4px", cursor: "pointer", color: "#d00" }}>
+                  Delete
+                </button>
               </div>
             </div>
           ))

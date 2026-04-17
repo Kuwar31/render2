@@ -1,5 +1,5 @@
-import { useLoaderData } from "react-router";
-import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
+import { useLoaderData, Link } from "react-router";
+import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
 
@@ -22,17 +22,17 @@ export const loader = async ({ request }) => {
 
 export default function Dashboard() {
   const { totalRevenue, totalOrders, activeBundles, bundles } = useLoaderData();
-  const shopify = useAppBridge();
 
   return (
     <s-page>
-      <TitleBar title="Kaching Bundles">
-        <button variant="primary" onClick={() => shopify.navigate("/app/bundles/new")}>
-          Create bundle
-        </button>
-      </TitleBar>
+      <TitleBar title="Kaching Bundles" />
 
       <s-section heading="Overview">
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
+          <Link to="/app/bundles/new" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", fontSize: "14px" }}>
+            Create bundle
+          </Link>
+        </div>
         <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
           <div style={{ flex: 1, minWidth: "150px", background: "#f0f8ff", borderRadius: "8px", padding: "20px", textAlign: "center" }}>
             <div style={{ fontSize: "32px", fontWeight: "700" }}>${totalRevenue.toFixed(2)}</div>
@@ -53,9 +53,9 @@ export default function Dashboard() {
         {bundles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
-            <button onClick={() => shopify.navigate("/app/bundles/new")}>
+            <Link to="/app/bundles/new" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none" }}>
               Create your first bundle
-            </button>
+            </Link>
           </div>
         ) : (
           bundles.slice(0, 5).map(b => (
@@ -68,7 +68,9 @@ export default function Dashboard() {
                 <span style={{ color: b.status === "active" ? "#008060" : "#666" }}>
                   {b.status === "active" ? "● Active" : "○ Paused"}
                 </span>
-                <button onClick={() => shopify.navigate(`/app/bundles/${b.id}`)}>Edit</button>
+                <Link to={`/app/bundles/${b.id}`} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333" }}>
+                  Edit
+                </Link>
               </div>
             </div>
           ))
