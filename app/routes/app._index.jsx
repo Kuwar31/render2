@@ -1,3 +1,8 @@
+import { useLoaderData, useNavigate } from "react-router";
+import { TitleBar } from "@shopify/app-bridge-react";
+import { authenticate } from "../shopify.server.js";
+import prisma from "../db.server.js";
+
 export const loader = async ({ request }) => {
   const { admin, session } = await authenticate.admin(request);
   const shop = session.shop;
