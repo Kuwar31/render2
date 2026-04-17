@@ -1,5 +1,5 @@
-import { useLoaderData } from "react-router";
-import { TitleBar, useNavigate } from "@shopify/app-bridge-react";
+import { useLoaderData, useNavigate } from "react-router";
+import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
 
