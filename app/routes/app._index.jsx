@@ -7,21 +7,7 @@ export const loader = async ({ request }) => {
   const { admin, session } = await authenticate.admin(request);
   const shop = session.shop;
 
-  // Temporary: get function ID
-  const functionsResponse = await admin.graphql(`
-    query {
-      shopifyFunctions(first: 10) {
-        nodes {
-          id
-          title
-          apiType
-        }
-      }
-    }
-  `);
-  const functionsData = await functionsResponse.json();
-  console.log("[Functions]", JSON.stringify(functionsData.data, null, 2));
-
+  
   const bundles = await prisma.bundle.findMany({
     where: { shop },
     include: { tiers: true },
