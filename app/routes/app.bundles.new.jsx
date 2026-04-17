@@ -127,7 +127,7 @@ export default function NewBundle() {
   return (
     <s-page>
       <TitleBar title="Create Bundle">
-        <Link to="/app/bundles" style={{ padding: "8px 16px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333", display: "inline-block" }}>
+        <Link reloadDocument to="/app/bundles" style={{ padding: "8px 16px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333", display: "inline-block" }}>
           Cancel
         </Link>
         <button variant="primary" onClick={handleSave}>Save bundle</button>

@@ -54,20 +54,14 @@ export default function BundleList() {
       <TitleBar title="Bundles" />
       <s-section>
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
-          <Link
-            to="/app/bundles/new"
-            style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", fontSize: "14px", display: "inline-block" }}
-          >
+          <Link reloadDocument to="/app/bundles/new" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", fontSize: "14px", display: "inline-block" }}>
             Create bundle
           </Link>
         </div>
         {bundles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
-            <Link
-              to="/app/bundles/new"
-              style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", display: "inline-block" }}
-            >
+            <Link reloadDocument to="/app/bundles/new" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", display: "inline-block" }}>
               Create your first bundle
             </Link>
           </div>
@@ -84,22 +78,13 @@ export default function BundleList() {
                 <span style={{ color: b.status === "active" ? "#008060" : "#999", fontSize: "13px" }}>
                   {b.status === "active" ? "● Active" : "○ Paused"}
                 </span>
-                <button
-                  onClick={() => handleToggle(b.id)}
-                  style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}
-                >
+                <button onClick={() => handleToggle(b.id)} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}>
                   {b.status === "active" ? "Pause" : "Activate"}
                 </button>
-                <Link
-                  to={`/app/bundles/${b.id}`}
-                  style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333", display: "inline-block" }}
-                >
+                <Link reloadDocument to={`/app/bundles/${b.id}`} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333", display: "inline-block" }}>
                   Edit
                 </Link>
-                <button
-                  onClick={() => handleDelete(b.id)}
-                  style={{ padding: "6px 12px", border: "1px solid #fcc", borderRadius: "4px", cursor: "pointer", color: "#d00", background: "white" }}
-                >
+                <button onClick={() => handleDelete(b.id)} style={{ padding: "6px 12px", border: "1px solid #fcc", borderRadius: "4px", cursor: "pointer", color: "#d00", background: "white" }}>
                   Delete
                 </button>
               </div>

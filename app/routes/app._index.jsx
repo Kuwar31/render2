@@ -25,10 +25,7 @@ export default function Dashboard() {
       <TitleBar title="Kaching Bundles" />
       <s-section heading="Overview">
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
-          <Link
-            to="/app/bundles/new"
-            style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", fontSize: "14px", display: "inline-block" }}
-          >
+          <Link reloadDocument to="/app/bundles/new" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", fontSize: "14px", display: "inline-block" }}>
             Create bundle
           </Link>
         </div>
@@ -51,10 +48,7 @@ export default function Dashboard() {
         {bundles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
-            <Link
-              to="/app/bundles/new"
-              style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", display: "inline-block" }}
-            >
+            <Link reloadDocument to="/app/bundles/new" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", display: "inline-block" }}>
               Create your first bundle
             </Link>
           </div>
@@ -69,10 +63,7 @@ export default function Dashboard() {
                 <span style={{ color: b.status === "active" ? "#008060" : "#666" }}>
                   {b.status === "active" ? "● Active" : "○ Paused"}
                 </span>
-                <Link
-                  to={`/app/bundles/${b.id}`}
-                  style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333", display: "inline-block" }}
-                >
+                <Link reloadDocument to={`/app/bundles/${b.id}`} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333", display: "inline-block" }}>
                   Edit
                 </Link>
               </div>

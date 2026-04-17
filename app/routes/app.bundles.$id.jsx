@@ -100,7 +100,7 @@ export default function EditBundle() {
     <s-page>
       <TitleBar title="Edit Bundle">
         <button onClick={handleDelete} style={{ color: "#d00" }}>Delete</button>
-        <Link to="/app/bundles" style={{ padding: "8px 16px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333", display: "inline-block" }}>
+        <Link reloadDocument to="/app/bundles" style={{ padding: "8px 16px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333", display: "inline-block" }}>
           Cancel
         </Link>
         <button variant="primary" onClick={handleSave}>Save changes</button>
