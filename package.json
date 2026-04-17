@@ -60,8 +60,9 @@
     "vite": "^6.3.6"
   },
   "workspaces": [
-    "extensions/*"
-  ],
+  "extensions/bundle-widget",
+  "extensions/bundle-function"
+],
   "trustedDependencies": [
     "@shopify/plugin-cloudflare"
   ],

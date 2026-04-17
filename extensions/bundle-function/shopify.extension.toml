@@ -7,10 +7,6 @@ handle = "bundle-function"
 runtime = "javascript"
 uid = "0dd56d2d-8d75-b88e-1275-9ab6fee242190c11755b"
 
-  [extensions.build]
-  command = "npm run build"
-  path = "dist/function.js"
-
   [[extensions.targeting]]
   module = "./src/run.js"
   target = "purchase.product-discount.run"
