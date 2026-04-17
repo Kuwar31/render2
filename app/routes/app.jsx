@@ -6,13 +6,16 @@ import { authenticate } from "../shopify.server.js";
 
 export const loader = async ({ request }) => {
   await authenticate.admin(request);
-  return { apiKey: process.env.SHOPIFY_API_KEY || "" };
+  return { 
+    apiKey: process.env.SHOPIFY_API_KEY || "",
+    appUrl: process.env.SHOPIFY_APP_URL || "",
+  };
 };
 
 export default function App() {
-  const { apiKey } = useLoaderData();
+  const { apiKey, appUrl } = useLoaderData();
   return (
-    <AppProvider embedded apiKey={apiKey}>
+    <AppProvider embedded apiKey={apiKey} appOrigins={[appUrl]}>
       <NavMenu>
         <Link to="/app" rel="home">Dashboard</Link>
         <Link to="/app/bundles">Bundles</Link>
