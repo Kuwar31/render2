@@ -4,6 +4,7 @@ import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
 import { redirect } from "react-router";
+import { useLoaderData, useSubmit, useActionData, useNavigate } from "react-router";
 
 export const loader = async ({ request, params }) => {
   const { session } = await authenticate.admin(request);
@@ -30,6 +31,7 @@ export const action = async ({ request, params }) => {
   const targetId = formData.get("targetId") || null;
   const layout = formData.get("layout");
   const tiers = JSON.parse(formData.get("tiers") || "[]");
+  const navigate = useNavigate();
 
   if (!title) return { error: "Title is required" };
 
@@ -99,12 +101,10 @@ export default function EditBundle() {
   return (
     <s-page>
       <TitleBar title="Edit Bundle">
-        <button onClick={handleDelete} style={{ color: "#d00" }}>Delete</button>
-        <a href="/app/bundles" target="_top" style={{ padding: "8px 16px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333" }}>
-          Cancel
-        </a>
-        <button variant="primary" onClick={handleSave}>Save changes</button>
-      </TitleBar>
+  <button onClick={handleDelete} style={{ color: "#d00" }}>Delete</button>
+  <button onClick={() => navigate("/app/bundles")}>Cancel</button>
+  <button variant="primary" onClick={handleSave}>Save changes</button>
+</TitleBar>
 
       {actionData?.error && (
         <div style={{ background: "#fff0f0", padding: "12px", borderRadius: "8px", marginBottom: "16px", color: "#d00" }}>

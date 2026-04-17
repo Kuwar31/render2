@@ -1,4 +1,5 @@
-import { useLoaderData, useSubmit } from "react-router";
+// app/routes/app.bundles.jsx
+import { useLoaderData, useSubmit, useNavigate } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
@@ -18,7 +19,6 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
   const id = formData.get("id");
   const intent = formData.get("intent");
-
   if (intent === "delete") {
     await prisma.bundle.delete({ where: { id, shop: session.shop } });
   } else if (intent === "toggle") {
@@ -34,6 +34,7 @@ export const action = async ({ request }) => {
 export default function BundleList() {
   const { bundles } = useLoaderData();
   const submit = useSubmit();
+  const navigate = useNavigate();
 
   const handleToggle = (id) => {
     const formData = new FormData();
@@ -53,20 +54,18 @@ export default function BundleList() {
   return (
     <s-page>
       <TitleBar title="Bundles" />
-
       <s-section>
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
-          <a href="/app/bundles/new" target="_top" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", fontSize: "14px" }}>
+          <button onClick={() => navigate("/app/bundles/new")} style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer", fontSize: "14px" }}>
             Create bundle
-          </a>
+          </button>
         </div>
-
         {bundles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
-            <a href="/app/bundles/new" target="_top" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none" }}>
+            <button onClick={() => navigate("/app/bundles/new")} style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }}>
               Create your first bundle
-            </a>
+            </button>
           </div>
         ) : (
           bundles.map(b => (
@@ -84,9 +83,9 @@ export default function BundleList() {
                 <button onClick={() => handleToggle(b.id)} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}>
                   {b.status === "active" ? "Pause" : "Activate"}
                 </button>
-                <a href={`/app/bundles/${b.id}`} target="_top" style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333" }}>
+                <button onClick={() => navigate(`/app/bundles/${b.id}`)} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}>
                   Edit
-                </a>
+                </button>
                 <button onClick={() => handleDelete(b.id)} style={{ padding: "6px 12px", border: "1px solid #fcc", borderRadius: "4px", cursor: "pointer", color: "#d00", background: "white" }}>
                   Delete
                 </button>

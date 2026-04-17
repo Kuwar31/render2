@@ -1,4 +1,5 @@
-import { useLoaderData } from "react-router";
+// app/routes/app._index.jsx
+import { useLoaderData, useNavigate } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
@@ -6,32 +7,29 @@ import prisma from "../db.server.js";
 export const loader = async ({ request }) => {
   const { session } = await authenticate.admin(request);
   const shop = session.shop;
-
   const bundles = await prisma.bundle.findMany({
     where: { shop },
     include: { tiers: true },
     orderBy: { createdAt: "desc" },
   });
-
   const totalRevenue = bundles.reduce((sum, b) => sum + b.revenue, 0);
   const totalOrders = bundles.reduce((sum, b) => sum + b.orders, 0);
   const activeBundles = bundles.filter(b => b.status === "active").length;
-
   return { totalRevenue, totalOrders, activeBundles, bundles };
 };
 
 export default function Dashboard() {
   const { totalRevenue, totalOrders, activeBundles, bundles } = useLoaderData();
+  const navigate = useNavigate();
 
   return (
     <s-page>
       <TitleBar title="Kaching Bundles" />
-
       <s-section heading="Overview">
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
-          <a href="/app/bundles/new" target="_top" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none", fontSize: "14px" }}>
+          <button onClick={() => navigate("/app/bundles/new")} style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer", fontSize: "14px" }}>
             Create bundle
-          </a>
+          </button>
         </div>
         <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
           <div style={{ flex: 1, minWidth: "150px", background: "#f0f8ff", borderRadius: "8px", padding: "20px", textAlign: "center" }}>
@@ -48,14 +46,13 @@ export default function Dashboard() {
           </div>
         </div>
       </s-section>
-
       <s-section heading="Recent Bundles">
         {bundles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
-            <a href="/app/bundles/new" target="_top" style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", textDecoration: "none" }}>
+            <button onClick={() => navigate("/app/bundles/new")} style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }}>
               Create your first bundle
-            </a>
+            </button>
           </div>
         ) : (
           bundles.slice(0, 5).map(b => (
@@ -68,9 +65,9 @@ export default function Dashboard() {
                 <span style={{ color: b.status === "active" ? "#008060" : "#666" }}>
                   {b.status === "active" ? "● Active" : "○ Paused"}
                 </span>
-                <a href={`/app/bundles/${b.id}`} target="_top" style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333" }}>
+                <button onClick={() => navigate(`/app/bundles/${b.id}`)} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}>
                   Edit
-                </a>
+                </button>
               </div>
             </div>
           ))

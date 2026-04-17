@@ -4,6 +4,7 @@ import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
 import { redirect } from "react-router";
+import { useSubmit, useActionData, useNavigate } from "react-router";
 
 export const action = async ({ request }) => {
   const { admin, session } = await authenticate.admin(request);
@@ -14,7 +15,7 @@ export const action = async ({ request }) => {
   const targetId = formData.get("targetId") || null;
   const layout = formData.get("layout") || "classic";
   const tiers = JSON.parse(formData.get("tiers") || "[]");
-
+  const navigate = useNavigate();
   if (!title) return { error: "Title is required" };
   if (tiers.length === 0) return { error: "Add at least one tier" };
 
@@ -122,11 +123,9 @@ export default function NewBundle() {
   return (
     <s-page>
       <TitleBar title="Create Bundle">
-        <a href="/app/bundles" target="_top" style={{ padding: "8px 16px", border: "1px solid #ccc", borderRadius: "4px", textDecoration: "none", color: "#333" }}>
-          Cancel
-        </a>
-        <button variant="primary" onClick={handleSave}>Save bundle</button>
-      </TitleBar>
+  <button onClick={() => navigate("/app/bundles")}>Cancel</button>
+  <button variant="primary" onClick={handleSave}>Save bundle</button>
+</TitleBar>
 
       {actionData?.error && (
         <div style={{ background: "#fff0f0", padding: "12px", borderRadius: "8px", marginBottom: "16px", color: "#d00" }}>
