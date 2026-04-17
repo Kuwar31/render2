@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate, useSubmit } from "react-router";
+import { useLoaderData, useSubmit } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
@@ -33,7 +33,6 @@ export const action = async ({ request }) => {
 
 export default function BundleList() {
   const { bundles } = useLoaderData();
-  const navigate = useNavigate();
   const submit = useSubmit();
 
   const handleToggle = (id) => {
@@ -54,7 +53,7 @@ export default function BundleList() {
   return (
     <s-page>
       <TitleBar title="Bundles">
-        <button variant="primary" onClick={() => navigate("/app/bundles/new")}>
+        <button variant="primary" onClick={() => window.location.href = "/app/bundles/new"}>
           Create bundle
         </button>
       </TitleBar>
@@ -63,7 +62,9 @@ export default function BundleList() {
         {bundles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
-            <button onClick={() => navigate("/app/bundles/new")}>Create your first bundle</button>
+            <button onClick={() => window.location.href = "/app/bundles/new"}>
+              Create your first bundle
+            </button>
           </div>
         ) : (
           bundles.map(b => (
@@ -81,7 +82,7 @@ export default function BundleList() {
                 <button onClick={() => handleToggle(b.id)}>
                   {b.status === "active" ? "Pause" : "Activate"}
                 </button>
-                <button onClick={() => navigate(`/app/bundles/${b.id}`)}>Edit</button>
+                <button onClick={() => window.location.href = `/app/bundles/${b.id}`}>Edit</button>
                 <button onClick={() => handleDelete(b.id)}>Delete</button>
               </div>
             </div>

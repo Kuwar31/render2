@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate } from "react-router";
+import { useLoaderData } from "react-router";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
@@ -22,12 +22,11 @@ export const loader = async ({ request }) => {
 
 export default function Dashboard() {
   const { totalRevenue, totalOrders, activeBundles, bundles } = useLoaderData();
-  const navigate = useNavigate();
 
   return (
     <s-page>
       <TitleBar title="Kaching Bundles">
-        <button variant="primary" onClick={() => navigate("/app/bundles/new")}>
+        <button variant="primary" onClick={() => window.location.href = "/app/bundles/new"}>
           Create bundle
         </button>
       </TitleBar>
@@ -53,7 +52,9 @@ export default function Dashboard() {
         {bundles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
-            <button onClick={() => navigate("/app/bundles/new")}>Create your first bundle</button>
+            <button onClick={() => window.location.href = "/app/bundles/new"}>
+              Create your first bundle
+            </button>
           </div>
         ) : (
           bundles.slice(0, 5).map(b => (
@@ -66,7 +67,7 @@ export default function Dashboard() {
                 <span style={{ color: b.status === "active" ? "#008060" : "#666" }}>
                   {b.status === "active" ? "● Active" : "○ Paused"}
                 </span>
-                <button onClick={() => navigate(`/app/bundles/${b.id}`)}>Edit</button>
+                <button onClick={() => window.location.href = `/app/bundles/${b.id}`}>Edit</button>
               </div>
             </div>
           ))
