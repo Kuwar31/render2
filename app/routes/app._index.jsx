@@ -26,7 +26,7 @@ export default function Dashboard() {
       <TitleBar title="Kaching Bundles" />
       <s-section heading="Overview">
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
-          <button onClick={() => navigate("/app/bundles/new")} style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer", fontSize: "14px" }}>
+          <button onClick={() => window.top.location.href = "/app/bundles/new"} style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer", fontSize: "14px" }}>
             Create bundle
           </button>
         </div>
@@ -49,7 +49,7 @@ export default function Dashboard() {
         {bundles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
-            <button onClick={() => navigate("/app/bundles/new")} style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }}>
+            <button onClick={() => window.top.location.href = "/app/bundles/new"} style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }}>
               Create your first bundle
             </button>
           </div>

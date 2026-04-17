@@ -128,7 +128,7 @@ export default function NewBundle() {
   return (
     <s-page>
       <TitleBar title="Create Bundle">
-        <button onClick={() => navigate("/app/bundles")}>Cancel</button>
+        <button onClick={() => window.top.location.href = "/app/bundles"}>Cancel</button>
         <button variant="primary" onClick={handleSave}>Save bundle</button>
       </TitleBar>
 

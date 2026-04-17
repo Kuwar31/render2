@@ -101,7 +101,7 @@ export default function EditBundle() {
     <s-page>
       <TitleBar title="Edit Bundle">
         <button onClick={handleDelete} style={{ color: "#d00" }}>Delete</button>
-        <button onClick={() => navigate("/app/bundles")}>Cancel</button>
+        <button onClick={() => window.top.location.href = "/app/bundles"}>Cancel</button>
         <button variant="primary" onClick={handleSave}>Save changes</button>
       </TitleBar>
 
