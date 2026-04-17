@@ -1,5 +1,5 @@
-import { useLoaderData, useNavigate } from "react-router";
-import { TitleBar } from "@shopify/app-bridge-react";
+import { useLoaderData } from "react-router";
+import { TitleBar, useNavigate } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server.js";
 import prisma from "../db.server.js";
 
@@ -26,10 +26,7 @@ export default function Dashboard() {
       <TitleBar title="Kaching Bundles" />
       <s-section heading="Overview">
         <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
-          <button
-            onClick={() => navigate("/app/bundles/new")}
-            style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer", fontSize: "14px" }}
-          >
+          <button onClick={() => navigate("/app/bundles/new")} style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer", fontSize: "14px" }}>
             Create bundle
           </button>
         </div>
@@ -52,10 +49,7 @@ export default function Dashboard() {
         {bundles.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px" }}>
             <p>No bundles yet.</p>
-            <button
-              onClick={() => navigate("/app/bundles/new")}
-              style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }}
-            >
+            <button onClick={() => navigate("/app/bundles/new")} style={{ padding: "10px 20px", background: "#008060", color: "white", borderRadius: "6px", border: "none", cursor: "pointer" }}>
               Create your first bundle
             </button>
           </div>
@@ -70,10 +64,7 @@ export default function Dashboard() {
                 <span style={{ color: b.status === "active" ? "#008060" : "#666" }}>
                   {b.status === "active" ? "● Active" : "○ Paused"}
                 </span>
-                <button
-                  onClick={() => navigate(`/app/bundles/${b.id}`)}
-                  style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}
-                >
+                <button onClick={() => navigate(`/app/bundles/${b.id}`)} style={{ padding: "6px 12px", border: "1px solid #ccc", borderRadius: "4px", cursor: "pointer", background: "white" }}>
                   Edit
                 </button>
               </div>
